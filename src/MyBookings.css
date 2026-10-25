@@ -1,0 +1,143 @@
+
+.my-bookings-page {
+  min-height: 100vh;
+  padding: 35px 7%;
+  background: #101010;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+.bookings-back-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #444;
+  padding: 11px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.bookings-back-btn:hover {
+  background: #e50914;
+  border-color: #e50914;
+}
+
+.my-bookings-page > h1 {
+  margin: 35px 0 8px;
+  font-size: 36px;
+  color: #ffffff;
+}
+
+.bookings-subtitle {
+  color: #aaaaaa;
+  margin-bottom: 30px;
+}
+
+.bookings-message {
+  margin-top: 35px;
+  color: #cccccc;
+  text-align: center;
+}
+
+.empty-bookings {
+  margin-top: 35px;
+  padding: 45px 20px;
+  text-align: center;
+  background: #1b1b1b;
+  border: 1px solid #303030;
+  border-radius: 12px;
+}
+
+.empty-bookings h2 {
+  margin-bottom: 10px;
+  color: #e50914;
+}
+
+.empty-bookings p {
+  color: #aaaaaa;
+}
+
+.bookings-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.booking-history-card {
+  background: #1b1b1b;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.25s, border-color 0.25s;
+  overflow-wrap: anywhere;
+}
+
+.booking-history-card:hover {
+  transform: translateY(-4px);
+  border-color: #e50914;
+}
+
+.booking-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.booking-history-header h2 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.booking-status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #183d29;
+  color: #75e3a1;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.booking-status.cancelled {
+  background: #492023;
+  color: #ff9b9b;
+}
+
+.booking-history-card > p {
+  color: #c5c5c5;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+
+.booking-history-card strong {
+  color: #ffffff;
+}
+
+.booking-reference {
+  font-size: 12px !important;
+  overflow-wrap: anywhere;
+}
+
+.booking-date {
+  padding-top: 12px;
+  border-top: 1px solid #333333;
+  color: #999999 !important;
+  font-size: 12px !important;
+}
+
+@media (max-width: 600px) {
+  .my-bookings-page {
+    padding: 25px 5%;
+  }
+
+  .my-bookings-page > h1 {
+    font-size: 29px;
+  }
+
+  .bookings-list {
+    grid-template-columns: 1fr;
+  }
+}
