@@ -1,16 +1,24 @@
-# React + Vite
+# IMovies - Movie Ticket Booking Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+IMovies is a movie ticket booking website built using React, Vite, Node.js, Express.js, and MongoDB.
 
-Currently, two official plugins are available:
+## Features
+- User Sign Up and Login
+- Movie browsing
+- Movie showtime selection
+- Seat selection
+- Online booking record storage
+- My Bookings history
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Technologies Used
+- React
+- HTML, CSS, JavaScript
+- Node.js and Express.js
+- MongoDB
+- JWT Authentication
 
-## React Compiler
+## Project Structure
+- `src/` - Frontend application
+- `backend/` - Backend API and database connection
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project was developed as a learning project for full-stack web development.
