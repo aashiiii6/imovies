@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import './MyBookings.css'
-
+const API_URL = import.meta.env.VITE_API_URL
 function MyBookings({ onBack }) {
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
@@ -19,7 +19,7 @@ function MyBookings({ onBack }) {
 
       try {
         const response = await fetch(
-          'http://localhost:5000/api/bookings/my-bookings',
+          `${API_URL}/api/bookings/my-bookings`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

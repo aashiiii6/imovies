@@ -2,6 +2,7 @@
 import React from 'react'
 
 function Auth({ mode, onBack, onSwitchMode }) {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -19,7 +20,7 @@ function Auth({ mode, onBack, onSwitchMode }) {
       const endpoint = isSignup ? 'signup' : 'login'
 
       const response = await fetch(
-        `http://localhost:5000/api/auth/${endpoint}`,
+        `${API_URL}/api/auth/${endpoint}`,
         {
           method: 'POST',
           headers: {

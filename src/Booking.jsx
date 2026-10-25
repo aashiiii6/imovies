@@ -1,7 +1,7 @@
 
 import './Booking.css'
 import { useState } from 'react'
-
+const API_URL = import.meta.env.VITE_API_URL
 function Booking({ movie, onBack }) {
   const [selectedTime, setSelectedTime] = useState('')
   const [showSeats, setShowSeats] = useState(false)
@@ -32,7 +32,7 @@ function Booking({ movie, onBack }) {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/bookings',
+        `${API_URL}/api/bookings`,
         {
           method: 'POST',
           headers: {
