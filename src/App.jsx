@@ -5,31 +5,103 @@ import './Auth.css'
 import Booking from './Booking'
 import Auth from './Auth'
 import MyBookings from './MyBookings'
+import AdminDashboard from './AdminDashboard'
 
 function App() {
   const [selectedMovie, setSelectedMovie] = React.useState(null)
   const [authMode, setAuthMode] = React.useState(null)
   const [showMyBookings, setShowMyBookings] = React.useState(false)
-  const [loggedInUser, setLoggedInUser] = React.useState(() => {
-  try {
-    return JSON.parse(localStorage.getItem('imoviesUser')) 
-  } catch {
-    return null
-  }
-})
+  const [showAdminDashboard, setShowAdminDashboard] = React.useState(false)
+  const [isAdmin, setIsAdmin] = React.useState(false)
 
-const handleLogout = () => {
-  localStorage.removeItem('imoviesToken')
-  localStorage.removeItem('imoviesUser')
-  setLoggedInUser(null)
-}
-if (showMyBookings) {
-  return (
-    <MyBookings
-      onBack={() => setShowMyBookings(false)}
-    />
-  )
-}
+  const [loggedInUser, setLoggedInUser] = React.useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('imoviesUser'))
+    } catch {
+      return null
+    }
+  })
+
+  // Verify the logged-in user's role through the backend
+  React.useEffect(() => {
+    let cancelled = false
+
+    const verifyUser = async () => {
+      const token = localStorage.getItem('imoviesToken')
+
+      if (!token) {
+        setIsAdmin(false)
+        setLoggedInUser(null)
+        return
+      }
+
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/auth/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error('Unable to verify user')
+        }
+
+        const data = await response.json()
+
+        if (cancelled) return
+
+        setLoggedInUser(data.user || null)
+        setIsAdmin(data.user?.role === 'admin')
+
+        localStorage.setItem(
+          'imoviesUser',
+          JSON.stringify(data.user)
+        )
+      } catch (error) {
+        if (cancelled) return
+
+        setIsAdmin(false)
+        localStorage.removeItem('imoviesUser')
+        setLoggedInUser(null)
+      }
+    }
+
+    verifyUser()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('imoviesToken')
+    localStorage.removeItem('imoviesUser')
+
+    setLoggedInUser(null)
+    setIsAdmin(false)
+    setShowAdminDashboard(false)
+    setShowMyBookings(false)
+  }
+
+  if (showAdminDashboard) {
+    return (
+      <AdminDashboard
+        onBack={() => setShowAdminDashboard(false)}
+      />
+    )
+  }
+
+  if (showMyBookings) {
+    return (
+      <MyBookings
+        onBack={() => setShowMyBookings(false)}
+      />
+    )
+  }
+
   if (selectedMovie) {
     return (
       <Booking
@@ -62,47 +134,54 @@ if (showMyBookings) {
           <a href="#about">About</a>
         </div>
 
-        
-<div className="auth-buttons">
-  {loggedInUser ? (
-    <>
-      <span className="welcome-user">
-        Hi, {loggedInUser.name}
-      </span>
+        <div className="auth-buttons">
+          {loggedInUser ? (
+            <>
+              <span className="welcome-user">
+                Hi, {loggedInUser.name}
+              </span>
 
-      <button
-        className="login-btn"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-    </>
-  ) : (
-    <>
-      <button
-        className="login-btn"
-        onClick={() => setAuthMode('login')}
-      >
-        Sign In
-      </button>
+              <button
+                className="login-btn"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="login-btn"
+                onClick={() => setAuthMode('login')}
+              >
+                Sign In
+              </button>
 
-      <button
-        className="signup-btn"
-        onClick={() => setAuthMode('signup')}
-      >
-        Sign Up
-      </button>
-    </>
-  )}
+              <button
+                className="signup-btn"
+                onClick={() => setAuthMode('signup')}
+              >
+                Sign Up
+              </button>
+            </>
+          )}
 
-  <button
-    className="login-btn"
-    onClick={() => setShowMyBookings(true)}
-  >
-    My Bookings
-  </button>
-</div>
+          <button
+            className="login-btn"
+            onClick={() => setShowMyBookings(true)}
+          >
+            My Bookings
+          </button>
 
+          {isAdmin && (
+            <button
+              className="login-btn"
+              onClick={() => setShowAdminDashboard(true)}
+            >
+              Admin Dashboard
+            </button>
+          )}
+        </div>
       </nav>
 
       <section className="hero-section" id="home">

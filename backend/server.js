@@ -239,6 +239,35 @@ app.get('/api/admin/bookings', adminMiddleware, async (req, res) => {
   }
 })
 
+app.get('/api/auth/me', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select(
+      'name email role'
+    )
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found'
+      })
+    }
+
+    res.json({
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role || 'user'
+      }
+    })
+  } catch (error) {
+    console.error('Current user error:', error.message)
+
+    res.status(500).json({
+      message: 'Unable to fetch user details'
+    })
+  }
+})
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected successfully!')
