@@ -1,5 +1,6 @@
 const authMiddleware = require('./authMiddleware')
 const express = require('express')
+const adminMiddleware = require('./adminMiddleware')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
@@ -213,6 +214,27 @@ app.get('/api/bookings/my-bookings', authMiddleware, async (req, res) => {
 
     res.status(500).json({
       message: 'Unable to fetch booking history'
+    })
+  }
+})
+
+ // Admin: Get all bookings
+app.get('/api/admin/bookings', adminMiddleware, async (req, res) => {
+  try {
+    const bookings = await Booking.find()
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 })
+
+    res.json({
+      message: 'All bookings fetched successfully!',
+      totalBookings: bookings.length,
+      bookings
+    })
+  } catch (error) {
+    console.error('Admin bookings error:', error.message)
+
+    res.status(500).json({
+      message: 'Unable to fetch all bookings.'
     })
   }
 })
